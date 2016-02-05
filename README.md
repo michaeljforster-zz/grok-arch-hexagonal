@@ -10,10 +10,10 @@ system definition, and load the system with quicklisp:
 (ql:quicklisp "grok-arch-hexagonal")
 ```
 
-Following that, the application can be driven either by the tests
+Following that, the application can be driven either by the test
 
 ```lisp
-CL-USER> (run-tests)
+CL-USER> (run-test)
 ```
 
 or by the UI

@@ -26,27 +26,41 @@
 
 ;;; "grok-arch-hexagonal" goes here. Hacks and glory await!
 
+;;; Database Adaptor Interface
+
+(defclass rate-repository ()
+  ())
+
+(defgeneric rate (object amount))
+
 ;;; Application
 
 (defclass discounter ()
+  ((rate-repository :initarg :rate-repository :reader rate-repository)))
+
+(defmethod discount ((object discounter) amount)
+  (let ((rate (rate (rate-repository object) amount)))
+    (* amount rate)))
+
+;;; Database Adaptor Implementations
+
+(defclass mock-rate-repository (rate-repository)
   ())
 
-(defun rate (amount)
+(defmethod rate ((object mock-rate-repository) amount)
   (cond ((<= amount 100) 1/100)
         ((<= amount 1000) 1/50)
         (t 1/20)))
-
-(defmethod discount ((object discounter) amount)
-  (* amount (rate amount)))
 
 ;;; Test Adaptor
 
 (setf *print-failures* t)
 
 (define-test test-discounter
-  (let ((discounter (make-instance 'discounter)))
-    (assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
-    (assert-equal 4 (discount discounter 200)))) ; NOTE reference doc stated 10
+  (let ((mock-rate-repository (make-instance 'mock-rate-repository)))
+    (let ((discounter (make-instance 'discounter :rate-repository mock-rate-repository)))
+      (assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
+      (assert-equal 4 (discount discounter 200))))) ; NOTE reference doc stated 10
 
 ;;; UI Adaptor
 
@@ -66,7 +80,9 @@
   (let ((amount (prompt-for-amount)))
     (if (null amount)
         (inform "No amount entered. Exiting.")
-        (let ((discounter (make-instance 'discounter)))
-          (let ((discount (discount discounter amount))
-                (wu-decimal:*print-precision-loss* :round))
-            (inform (format nil "Discount: $~,2/wu-decimal:F/" discount)))))))
+        (let ((mock-rate-repository (make-instance 'mock-rate-repository)))
+          (let ((discounter (make-instance 'discounter
+                                           :rate-repository mock-rate-repository)))
+            (let ((discount (discount discounter amount))
+                  (wu-decimal:*print-precision-loss* :round))
+              (inform (format nil "Discount: $~,2/wu-decimal:F/" discount))))))))

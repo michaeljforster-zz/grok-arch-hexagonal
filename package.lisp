@@ -23,5 +23,6 @@
 ;;; SOFTWARE.
 
 (defpackage #:grok-arch-hexagonal
-  (:use #:cl
-        #:lisp-unit))
+  (:use #:cl)
+  (:export #:run-test
+           #:run-ui))

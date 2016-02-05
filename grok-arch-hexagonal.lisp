@@ -56,11 +56,14 @@
 
 (setf *print-failures* t)
 
-(define-test test-discounter
+(lisp-unit:define-test test-discounter
   (let ((mock-rate-repository (make-instance 'mock-rate-repository)))
     (let ((discounter (make-instance 'discounter :rate-repository mock-rate-repository)))
-      (assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
-      (assert-equal 4 (discount discounter 200))))) ; NOTE reference doc stated 10
+      (lisp-unit:assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
+      (lisp-unit:assert-equal 4 (discount discounter 200))))) ; NOTE reference doc stated 10
+
+(defun run-test ()
+  (lisp-unit:run-tests :all :grok-arch-hexagonal))
 
 ;;; UI Adaptor
 

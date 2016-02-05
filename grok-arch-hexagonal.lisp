@@ -26,12 +26,7 @@
 
 ;;; "grok-arch-hexagonal" goes here. Hacks and glory await!
 
-(setf *print-failures* t)
-
-(define-test test-discounter
-  (let ((discounter (make-instance 'discounter)))
-    (assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
-    (assert-equal 4 (discount discounter 200)))) ; NOTE reference doc stated 10
+;;; Application
 
 (defclass discounter ()
   ())
@@ -43,3 +38,35 @@
 
 (defmethod discount ((object discounter) amount)
   (* amount (rate amount)))
+
+;;; Test Adaptor
+
+(setf *print-failures* t)
+
+(define-test test-discounter
+  (let ((discounter (make-instance 'discounter)))
+    (assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
+    (assert-equal 4 (discount discounter 200)))) ; NOTE reference doc stated 10
+
+;;; UI Adaptor
+
+(defun prompt-read (prompt)
+  (format *query-io* "~A: " prompt)
+  (force-output *query-io*)
+  (read-line *query-io*))
+
+(defun inform (message)
+  (write-line message *query-io*)
+  (force-output *query-io*))
+
+(defun prompt-for-amount ()
+  (wu-decimal:parse-decimal (prompt-read "Amount") :junk-allowed t))
+
+(defun run-ui ()
+  (let ((amount (prompt-for-amount)))
+    (if (null amount)
+        (inform "No amount entered. Exiting.")
+        (let ((discounter (make-instance 'discounter)))
+          (let ((discount (discount discounter amount))
+                (wu-decimal:*print-precision-loss* :round))
+            (inform (format nil "Discount: $~,2/wu-decimal:F/" discount)))))))

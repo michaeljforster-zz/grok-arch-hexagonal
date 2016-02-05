@@ -27,6 +27,7 @@
   :author "Michael J. Forster <mike@forsterfamily.ca>"
   :license "MIT"
   :depends-on (#:alexandria
+               #:wu-decimal
                #:lisp-unit)
   :serial t
   :components ((:file "package")

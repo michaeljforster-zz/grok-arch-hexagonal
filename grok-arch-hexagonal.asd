@@ -26,7 +26,8 @@
   :description "Grokking Alistair Cockburn's Hexagonal Architecture"
   :author "Michael J. Forster <mike@forsterfamily.ca>"
   :license "MIT"
-  :depends-on (#:alexandria)
+  :depends-on (#:alexandria
+               #:lisp-unit)
   :serial t
   :components ((:file "package")
                (:file "grok-arch-hexagonal")))

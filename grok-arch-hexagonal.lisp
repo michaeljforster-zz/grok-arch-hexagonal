@@ -26,3 +26,20 @@
 
 ;;; "grok-arch-hexagonal" goes here. Hacks and glory await!
 
+(setf *print-failures* t)
+
+(define-test test-discounter
+  (let ((discounter (make-instance 'discounter)))
+    (assert-equal 1 (discount discounter 100)) ; NOTE reference doc stated 5
+    (assert-equal 4 (discount discounter 200)))) ; NOTE reference doc stated 10
+
+(defclass discounter ()
+  ())
+
+(defun rate (amount)
+  (cond ((<= amount 100) 1/100)
+        ((<= amount 1000) 1/50)
+        (t 1/20)))
+
+(defmethod discount ((object discounter) amount)
+  (* amount (rate amount)))

@@ -22,9 +22,7 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ;;; SOFTWARE.
 
-(in-package #:grok-arch-hexagonal)
-
-;;; "grok-arch-hexagonal" goes here. Hacks and glory await!
+(in-package #:grok-arch-hexagonal-fit-example)
 
 ;;; Database Adaptor Interface
 
@@ -63,7 +61,7 @@
       (lisp-unit:assert-equal 4 (discount discounter 200))))) ; NOTE reference doc stated 10
 
 (defun run-test ()
-  (lisp-unit:run-tests :all :grok-arch-hexagonal))
+  (lisp-unit:run-tests :all :grok-arch-hexagonal-fit-example))
 
 ;;; UI Adaptor
 

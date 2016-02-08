@@ -31,5 +31,5 @@
                #:lisp-unit)
   :serial t
   :components ((:file "package")
-               (:file "grok-arch-hexagonal")))
+               (:file "fit-example")))
 

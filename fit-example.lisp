@@ -1,4 +1,4 @@
-;;;; grok-arch-hexagonal.lisp
+;;;; fit-example.lisp
 
 ;;; The MIT License (MIT)
 ;;;

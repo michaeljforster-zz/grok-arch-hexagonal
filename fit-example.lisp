@@ -65,25 +65,19 @@
 
 ;;; UI Adaptor
 
-(defun prompt-read (prompt)
-  (format *query-io* "~A: " prompt)
-  (force-output *query-io*)
-  (read-line *query-io*))
-
-(defun inform (message)
-  (write-line message *query-io*)
-  (force-output *query-io*))
-
 (defun prompt-for-amount ()
-  (wu-decimal:parse-decimal (prompt-read "Amount") :junk-allowed t))
+  (wu-decimal:parse-decimal (grok-arch-hexagonal-utils:prompt-read "Amount")
+                            :junk-allowed t))
 
 (defun run-ui ()
   (let ((amount (prompt-for-amount)))
     (if (null amount)
-        (inform "No amount entered. Exiting.")
+        (grok-arch-hexagonal-utils:inform "No amount entered. Exiting.")
         (let ((mock-rate-repository (make-instance 'mock-rate-repository)))
           (let ((discounter (make-instance 'discounter
                                            :rate-repository mock-rate-repository)))
             (let ((discount (discount discounter amount))
                   (wu-decimal:*print-precision-loss* :round))
-              (inform (format nil "Discount: $~,2/wu-decimal:F/" discount))))))))
+              (grok-arch-hexagonal-utils:inform (format nil
+                                                        "Discount: $~,2/wu-decimal:F/"
+                                                        discount))))))))

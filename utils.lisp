@@ -1,4 +1,4 @@
-;;;; grok-arch-hexagonal.asd
+;;;; utils.lisp
 
 ;;; The MIT License (MIT)
 ;;;
@@ -22,15 +22,13 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ;;; SOFTWARE.
 
-(asdf:defsystem #:grok-arch-hexagonal
-  :description "Grokking Alistair Cockburn's Hexagonal Architecture"
-  :author "Michael J. Forster <mike@forsterfamily.ca>"
-  :license "MIT"
-  :depends-on (#:alexandria
-               #:wu-decimal
-               #:lisp-unit)
-  :components ((:file "package")
-               (:file "utils" :depends-on ("package"))
-               (:file "fit-example" :depends-on ("package"
-                                                 "utils"))))
+(in-package #:grok-arch-hexagonal-utils)
 
+(defun prompt-read (prompt)
+  (format *query-io* "~A: " prompt)
+  (force-output *query-io*)
+  (read-line *query-io*))
+
+(defun inform (message)
+  (write-line message *query-io*)
+  (force-output *query-io*))

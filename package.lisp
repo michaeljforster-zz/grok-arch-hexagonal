@@ -22,6 +22,11 @@
 ;;; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ;;; SOFTWARE.
 
+(defpackage #:grok-arch-hexagonal-utils
+  (:use #:cl)
+  (:export #:prompt-read
+           #:inform))
+
 (defpackage #:grok-arch-hexagonal-fit-example
   (:use #:cl)
   (:export #:run-test

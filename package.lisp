@@ -31,3 +31,7 @@
   (:use #:cl)
   (:export #:run-test
            #:run-ui))
+
+(defpackage #:grok-arch-hexagonal-hexarch2
+  (:use #:cl)
+  (:export #:run-test))

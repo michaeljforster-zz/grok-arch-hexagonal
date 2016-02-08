@@ -32,5 +32,7 @@
   :components ((:file "package")
                (:file "utils" :depends-on ("package"))
                (:file "fit-example" :depends-on ("package"
-                                                 "utils"))))
+                                                 "utils"))
+               (:file "hexarch2" :depends-on ("package"
+                                              "utils"))))
 

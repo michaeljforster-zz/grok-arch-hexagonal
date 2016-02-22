@@ -24,7 +24,15 @@
 
 (in-package #:grok-arch-hexagonal-hexarch2)
 
-;;; Storage Adaptor Interface
+;;; Inner Hexagon - Domain
+
+(defclass account ()
+  ((balance :initarg :balance :accessor balance)))
+
+(defmethod withdraw ((account account) amount)
+  (decf (balance account) amount))
+
+;;; Inner Hexagon - Storage Port
 
 (defclass storage ()
   ())
@@ -33,13 +41,7 @@
 
 (defgeneric (setf stored-account) (account account-id storage))
 
-;;; Application
-
-(defclass account ()
-  ((balance :initarg :balance :accessor balance)))
-
-(defmethod withdraw ((account account) amount)
-  (decf (balance account) amount))
+;;; Inner Hexagon - Application
 
 (defclass bank ()
   ((storage :initarg :storage :reader storage)))
@@ -57,7 +59,7 @@
   (let ((account (stored-account account-id (storage bank))))
     (withdraw account amount)))
 
-;;; Storage Adaptor Implementation
+;;; Outer Hexagon - Storage Adapter
 
 (defmethod stored-account (account-id (storage hash-table))
   (gethash account-id storage))
@@ -65,7 +67,7 @@
 (defmethod (setf stored-account) (account account-id (storage hash-table))
   (setf (gethash account-id storage) account))
 
-;;; Test Adaptor
+;;; Outer Hexagon - Test Adapter
 
 (setf lisp-unit:*print-failures* t)
 

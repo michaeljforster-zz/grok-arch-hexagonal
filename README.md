@@ -3,7 +3,7 @@
 Grokking Alistair Cockburn's [Hexagonal Architecture][1]
 
 grok-arch-hexagonal includes the Alistair Cockburn's FIT example and
-Pat Maddox's [hexarch2][2] example.
+Pat Maddox's [hexarch2][2] [example][3].
 
 grok-arch-hexagonal is not available for download via
 quicklisp. Instead, clone the repository, tell ASDF where to find the
@@ -37,3 +37,4 @@ grok-arch-hexagonal is distributed under the MIT license. See LICENSE.
 
 [1]: http://alistair.cockburn.us/Hexagonal+architecture
 [2]: https://github.com/patmaddox/hexarch2
+[3]: http://www.patmaddox.com/2014/05/15/poof-and-then-rails-was-gone/
